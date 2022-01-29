@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles.css";
 
 export const InputTodo = (props) => {
+  //propsを分割代入
   const { todoText, onchange, onClick } = props;
 
   return (

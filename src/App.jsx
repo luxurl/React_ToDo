@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { InputTodo } from "./components/InputToDo";
+import { IncompleteToDos } from "./components/IncompleteTodo";
+import { CompleteTodos } from "./components/CompleteToDo";
 
 export const App = () => {
   //テキストボックスの入力値のステート
@@ -62,43 +64,15 @@ export const App = () => {
         onchange={onChangeTodoText}
         onClick={onClickAdd}
       />
-      <div className="imcomplete-area">
-        <p className="title">未完了のToDo</p>
-        <ul>
-          {incompleteTodos.map((todo, index) => {
-            return (
-              //仮想DOMなので何回ループしたかを図るためにkeyを設定する
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                {/**
-                この実装の仕方だと延々と処理が実行されてしまう
-                <button onClick={onclickDelete(index)}>削除</button> 
-                そのためonClickに関数として書き込むことで防げる
-                。。。。なんで？？
-                */}
-                <button onClick={() => onclickDelete(index)}>削除</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="complete-area">
-        <p className="title">完了のToDo</p>
-        <ul>
-          {completeTodos.map((todo, index) => {
-            return (
-              //仮想DOMなので何回ループしたかを図るためにkeyを設定する
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickMoveIncomplete(index)}>
-                  戻す
-                </button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      <IncompleteToDos
+        todos={incompleteTodos}
+        onclickDelete={onclickDelete}
+        onClickComplete={onClickComplete}
+      />
+      <CompleteTodos
+        todos={completeTodos}
+        onClickMoveIncomplete={onClickMoveIncomplete}
+      />
       <div></div>
     </>
   );
