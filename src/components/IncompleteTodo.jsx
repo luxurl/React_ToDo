@@ -11,7 +11,7 @@ export const IncompleteToDos = (props) => {
           {todos.map((todo, index) => {
             return (
               //仮想DOMなので何回ループしたかを図るためにkeyを設定する
-              <div key={todo} className="list-row">
+              <div key={index} className="list-row">
                 <li>{todo}</li>
                 <button onClick={() => onClickComplete(index)}>完了</button>
                 {/**

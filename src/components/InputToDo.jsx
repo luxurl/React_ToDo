@@ -3,7 +3,7 @@ import "../styles.css";
 
 export const InputTodo = (props) => {
   //propsを分割代入
-  const { todoText, onchange, onClick } = props;
+  const { todoText, onchange, onClick, disabled } = props;
 
   const style = {
     backgroundColor: "#c1ffff",
@@ -23,8 +23,15 @@ export const InputTodo = (props) => {
          そのためなにか変化があったらその値を入れる実装が必要
          onChangeはイベントの値を入れられるもの
         */}
-        <input placeholder="TODOを入力" value={todoText} onChange={onchange} />
-        <button onClick={onClick}>追加</button>
+        <input
+          disabled={disabled}
+          placeholder="TODOを入力"
+          value={todoText}
+          onChange={onchange}
+        />
+        <button disabled={disabled} onClick={onClick}>
+          追加
+        </button>
       </div>
     </>
   );
