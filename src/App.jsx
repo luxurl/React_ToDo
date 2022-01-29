@@ -5,12 +5,12 @@ export const App = () => {
   //テキストボックスの入力値のステート
   const [todoText, setTodoText] = useState("");
   //未完了のToDoのステート
-  const [incompleteTodos, setIncompleteTodos] = useState(["aaaaaa", "bbbbb"]);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
   //完了のToDoのステート
-  const [completeTdos, setCompleteTodos] = useState(["cccccc"]);
+  const [completeTodos, setCompleteTodos] = useState([]);
   //イベントを検知して引数に入れる
   const onChangeTodoText = (event) => setTodoText(event.target.value);
-  //ボタンをクリックしたときの処理
+  //追加ボタンをクリックしたときの処理
   const onClickAdd = () => {
     //空文字の場合は追加しない
     if (todoText === "") return;
@@ -19,13 +19,39 @@ export const App = () => {
     setIncompleteTodos(newTodos);
     setTodoText("");
   };
+
+  //削除ボタンを押したときの処理
   //何行目の削除ボタンが押されたかがわからないとどれを消していいのかわからない
   //のでMapのIndexを持ってくる
   const onclickDelete = (index) => {
-    const newTodos = [...incompleteTodos];
-    //指定したIndexの配列を削除する
-    newTodos.splice(index, 1);
+    const todos = [...incompleteTodos];
+    deleteInCompleteArea(todos, index);
+    setIncompleteTodos(todos);
+  };
+
+  //完了ボタンを押したときの処理
+  const onClickComplete = (index) => {
+    const todos = [...incompleteTodos];
+    deleteInCompleteArea(todos, index);
+    setIncompleteTodos(todos);
+    //間違えたところメモ未完了のステートからインデックスを指定して取得する
+    const newTodos = [...completeTodos, incompleteTodos[index]];
+    setCompleteTodos(newTodos);
+  };
+
+  //戻るボタンを押したときの処理
+  const onClickMoveIncomplete = (index) => {
+    const todos = [...completeTodos];
+    deleteInCompleteArea(todos, index);
+    setCompleteTodos(todos);
+    const newTodos = [...incompleteTodos, completeTodos[index]];
     setIncompleteTodos(newTodos);
+  };
+
+  //ステートから削除する処理
+  const deleteInCompleteArea = (todos, index) => {
+    //指定したIndexの配列を削除する
+    todos.splice(index, 1);
   };
 
   return (
@@ -52,7 +78,7 @@ export const App = () => {
               //仮想DOMなので何回ループしたかを図るためにkeyを設定する
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>完了</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
                 {/**
                 この実装の仕方だと延々と処理が実行されてしまう
                 <button onClick={onclickDelete(index)}>削除</button> 
@@ -68,13 +94,14 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のToDo</p>
         <ul>
-          {completeTdos.map((todo) => {
+          {completeTodos.map((todo, index) => {
             return (
               //仮想DOMなので何回ループしたかを図るためにkeyを設定する
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>完了</button>
-                <button>削除</button>
+                <button onClick={() => onClickMoveIncomplete(index)}>
+                  戻す
+                </button>
               </div>
             );
           })}
