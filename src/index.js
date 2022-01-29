@@ -3,4 +3,5 @@ import ReactDOM from "react-dom";
 
 import { App } from "./App";
 
-ReactDOM.render();
+//rootに対してレンダリング
+ReactDOM.render(<App />, document.getElementById("root"));
