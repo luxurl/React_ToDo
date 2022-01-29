@@ -37,7 +37,7 @@ export const App = () => {
     const todos = [...incompleteTodos];
     deleteInCompleteArea(todos, index);
     setIncompleteTodos(todos);
-    //間違えたところメモ未完了のステートからインデックスを指定して取得する
+    //間違えたところメモ：未完了のステートからインデックスを指定して取得する
     const newTodos = [...completeTodos, incompleteTodos[index]];
     setCompleteTodos(newTodos);
   };
